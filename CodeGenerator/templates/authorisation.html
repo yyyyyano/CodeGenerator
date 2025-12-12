@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeGen AI - Авторизация</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/authorisation_style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <div class="logo-text">
+                    <span class="logo-title">CodeGen AI</span>
+                    <span class="logo-subtitle">Автоматическая генерация кода</span>
+                </div>
+            </div>
+            
+            <div class="auth-progress">
+                <div class="progress-step active">
+                    <div class="step-number">1</div>
+                    <span>Загрузка</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">2</div>
+                    <span>Авторизация</span>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <span>Доступ</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-main">
+            <div class="auth-left">
+                <div class="auth-card" id="loginCard">
+                    <div class="auth-card-header">
+                        <h2><i class="fas fa-sign-in-alt"></i> Вход в систему</h2>
+                        <p>Введите ваши учетные данные для доступа к системе генерации кода</p>
+                    </div>
+                    
+                    <form id="authForm" class="auth-form">
+                        <div class="input-group">
+                            <label for="username">
+                                <i class="fas fa-user"></i>
+                                <span>Логин пользователя</span>
+                            </label>
+                            <input type="text" id="username" placeholder="Введите логин" required>
+                            <div class="input-hint">
+                                <i class="fas fa-info-circle"></i>
+                                Используйте вашу корпоративную учетную запись
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                <span>Пароль</span>
+                            </label>
+                            <input type="password" id="password" placeholder="Введите пароль" required>
+                            <div class="password-options">
+                                <label class="checkbox">
+                                    <input type="checkbox" id="showPassword">
+                                    <span>Показать пароль</span>
+                                </label>
+                                <a href="#" class="forgot-link" id="forgotPasswordLink">Забыли пароль?</a>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-options">
+                            <label class="checkbox">
+                                <input type="checkbox" id="rememberMe" checked>
+                                <span>Запомнить устройство</span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="secureMode">
+                                <span>Безопасный режим</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="auth-button" id="loginButton">
+                            <i class="fas fa-key"></i>
+                            <span>Войти в систему</span>
+                            <div class="button-loader" style="display: none;">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span>или</span>
+                        </div>
+                        
+                        <div class="alternative-auth">
+                            <button type="button" class="alt-button" id="googleButton">
+                                <i class="fab fa-google"></i>
+                                <span>Войти через Google</span>
+                            </button>
+                            <button type="button" class="alt-button" id="microsoftButton">
+                                <i class="fab fa-microsoft"></i>
+                                <span>Войти через Microsoft</span>
+                            </button>
+                        </div>
+                        
+                        <div class="auth-footer">
+                            <p>Нет учетной записи? <a href="#" id="registerLink">Запросить доступ</a></p>
+                            <p class="version">Версия системы: 0.0.1</p>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="auth-card" id="registerCard" style="display: none;">
+                    <div class="auth-card-header">
+                        <h2><i class="fas fa-user-plus"></i> Регистрация</h2>
+                        <p>Создайте новую учетную запись для доступа к системе</p>
+                    </div>
+                    
+                    <form id="registerForm" class="auth-form">
+                        <div class="input-group">
+                            <label for="regUsername">
+                                <i class="fas fa-user"></i>
+                                <span>Имя пользователя *</span>
+                            </label>
+                            <input type="text" id="regUsername" placeholder="От 3 до 20 символов" required>
+                            <div class="input-hint">
+                                <i class="fas fa-info-circle"></i>
+                                Только латинские буквы, цифры и символы _ . -
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="regEmail">
+                                <i class="fas fa-envelope"></i>
+                                <span>Email адрес *</span>
+                            </label>
+                            <input type="email" id="regEmail" placeholder="example@email.com" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="regFullName">
+                                <i class="fas fa-id-card"></i>
+                                <span>Полное имя</span>
+                            </label>
+                            <input type="text" id="regFullName" placeholder="Иван Иванов">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="regPassword">
+                                <i class="fas fa-lock"></i>
+                                <span>Пароль *</span>
+                            </label>
+                            <input type="password" id="regPassword" placeholder="Минимум 6 символов" required>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div>
+                                <span class="strength-text">Слабый</span>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="regConfirmPassword">
+                                <i class="fas fa-lock"></i>
+                                <span>Подтверждение пароля *</span>
+                            </label>
+                            <input type="password" id="regConfirmPassword" placeholder="Повторите пароль" required>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="regRole">
+                                <i class="fas fa-user-tag"></i>
+                                <span>Выберите роль *</span>
+                            </label>
+                            <select id="regRole" required>
+                                <option value="">Выберите роль</option>
+                                <option value="DEVELOPER">Разработчик</option>
+                                <option value="SYSTEM_ANALYST">Системный аналитик</option>
+                                <option value="STUDENT">Студент</option>
+                            </select>
+                        </div>
+                        
+                        <div class="auth-options">
+                            <label class="checkbox">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <span>Я согласен с <a href="#" id="termsLink">условиями использования</a></span>
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" id="subscribeNews">
+                                <span>Подписаться на новости и обновления</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="auth-button" id="registerButton">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Создать аккаунт</span>
+                            <div class="button-loader" style="display: none;">
+                                <div class="spinner"></div>
+                            </div>
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span>или</span>
+                        </div>
+                        
+                        <div class="alternative-actions">
+                            <button type="button" class="alt-action-btn" id="showLoginBtn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Уже есть аккаунт? Войти</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="auth-right">
+                <div class="system-info">
+                    <h3><i class="fas fa-info-circle"></i> Информация о системе</h3>
+                    
+                    <div class="system-status">
+                        <div class="status-item">
+                            <div class="status-icon online">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="status-text">
+                                <span class="status-title">Основной сервер</span>
+                                <span class="status-subtitle">В сети • 99.8% uptime</span>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-icon warning">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="status-text">
+                                <span class="status-title">База данных</span>
+                                <span class="status-subtitle">Обновление • 3 мин до завершения</span>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-icon online">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="status-text">
+                                <span class="status-title">API генерации</span>
+                                <span class="status-subtitle">Работает • нагрузка 42%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="system-metrics">
+                        <h4>Метрики системы</h4>
+                        <div class="metrics-grid">
+                            <div class="metric">
+                                <div class="metric-value" id="activeSessions">1,247</div>
+                                <div class="metric-label">Активных сессий</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value" id="todayGenerations">324</div>
+                                <div class="metric-label">Генераций сегодня</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-value" id="avgResponse">12.4с</div>
+                                <div class="metric-label">Среднее время ответа</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="system-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>
+                            <strong>Внимание:</strong> Для доступа к полному функционалу требуется двухфакторная аутентификация.
+                            <a href="#" class="notice-link" id="twoFALink">Настроить 2FA</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="auth-messages">
+            <div class="message" id="systemMessage" style="display: none;">
+                <i class="fas fa-comment-alt"></i>
+                <div class="message-content">
+                    <strong>Системное сообщение:</strong>
+                    <span id="messageText"></span>
+                </div>
+                <button class="message-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/authorisation.js') }}"></script>
+</body>
+</html>

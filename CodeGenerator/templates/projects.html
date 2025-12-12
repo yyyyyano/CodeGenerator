@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+
+{% block title %}Мои проекты - CodeGen AI{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/projects_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-header">
+        <h1>Мои проекты</h1>
+        <p class="page-subtitle">История всех сгенерированных проектов и модулей</p>
+    </div>
+
+    <div class="user-info-banner">
+        <p>Вы вошли как: <strong>{{ full_name or username }}</strong> • Роль: <span class="role-badge">{{ role }}</span> • Email: <span class="email">{{ email }}</span></p>
+    </div>
+
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-folder"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalProjects">{{ stats.total_projects }}</div>
+                <div class="stat-label">Всего проектов</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="completedProjects">{{ stats.completed_projects }}</div>
+                <div class="stat-label">Завершенных</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="totalLines">{{ "{:,}".format(stats.total_lines).replace(",", " ") }}</div>
+                <div class="stat-label">Строк кода</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                </div>
+                <div class="stat-value" id="draftProjects">{{ stats.draft_projects }}</div>
+                <div class="stat-label">Черновиков</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section">
+        <div class="section-header">
+            <h2>Активные проекты</h2>
+            <button class="create-project-btn" id="createProjectBtn">
+                <i class="fas fa-plus"></i>
+                Новый проект
+            </button>
+        </div>
+        
+        <div class="projects-grid" id="projectsGrid">
+            {% if projects %}
+                {% for project in projects %}
+                <div class="project-card" data-id="{{ project.id }}" data-status="{{ project.status }}">
+                    <div class="project-header">
+                        <h3 class="project-title">{{ project.name }}</h3>
+                        <p class="project-description">{{ project.description }}</p>
+                    </div>
+                    
+                    <div class="project-tags">
+                        <span class="project-tag language">{{ project.language }}</span>
+                        <span class="project-tag framework">{{ project.framework }}</span>
+                        <span class="project-tag {% if project.status == 'completed' %}status{% else %}status-draft{% endif %}">
+                            {% if project.status == 'completed' %}Завершен{% else %}Черновик{% endif %}
+                        </span>
+                    </div>
+                    
+                    <div class="project-stats">
+                        <div class="stat-item">
+                            <span class="stat-item-label">Строк кода:</span>
+                            <span class="stat-item-value">{{ project.lines_of_code }}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-item-label">Файлов:</span>
+                            <span class="stat-item-value">{{ project.files_count }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-meta">
+                        <i class="far fa-clock"></i>
+                        <span>Изменен: {{ project.updated_at[:10] }}</span>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <button class="action-btn primary open-project" data-id="{{ project.id }}">
+                                <i class="fas fa-folder-open"></i>
+                                Открыть
+                            </button>
+                            {% if project.status == 'completed' %}
+                            <button class="action-btn download-project" data-id="{{ project.id }}">
+                                <i class="fas fa-download"></i>
+                                Скачать
+                            </button>
+                            {% else %}
+                            <button class="action-btn edit-project" data-id="{{ project.id }}">
+                                <i class="fas fa-edit"></i>
+                                Редактировать
+                            </button>
+                            {% endif %}
+                        </div>
+                        <button class="action-btn danger delete-project" data-id="{{ project.id }}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div id="emptyState" class="empty-state" style="display: block;">
+                    <i class="fas fa-folder-open"></i>
+                    <h3>Нет проектов</h3>
+                    <p>У вас пока нет созданных проектов. Нажмите "Новый проект", чтобы начать работу.</p>
+                    <button class="create-project-btn" id="createProjectEmptyBtn">
+                        <i class="fas fa-plus"></i>
+                        Создать первый проект
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+
+<div id="projectModal" class="modal">
+    <div class="modal-content">
+        <button class="modal-close" id="modalClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 id="modalTitle">Создать новый проект</h2>
+        <form id="projectForm">
+            <input type="hidden" id="projectId" value="">
+            
+            <div class="form-group">
+                <label for="projectName">Название проекта</label>
+                <input type="text" id="projectName" placeholder="Например: API для пользователей" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectDescription">Описание</label>
+                <textarea id="projectDescription" placeholder="Опишите что должен делать ваш проект"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectLanguage">Язык программирования</label>
+                <select id="projectLanguage" required>
+                    <option value="">Выберите язык</option>
+                    <option value="TypeScript">TypeScript</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="Python">Python</option>
+                    <option value="Java">Java</option>
+                    <option value="PHP">PHP</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectFramework">Фреймворк</label>
+                <select id="projectFramework" required>
+                    <option value="">Выберите фреймворк</option>
+                    <option value="React">React</option>
+                    <option value="Vue.js">Vue.js</option>
+                    <option value="Angular">Angular</option>
+                    <option value="NestJS">NestJS</option>
+                    <option value="Express.js">Express.js</option>
+                    <option value="FastAPI">FastAPI</option>
+                    <option value="Spring Boot">Spring Boot</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="projectStatus">Статус</label>
+                <select id="projectStatus" required>
+                    <option value="draft">Черновик</option>
+                    <option value="completed">Завершен</option>
+                </select>
+            </div>
+            
+            <div class="modal-actions">
+                <button type="submit" id="modalSubmitBtn">Создать проект</button>
+                <button type="button" id="cancelModal">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="viewImageModal" class="modal">
+    <div class="modal-content image-modal">
+        <button class="modal-close" id="closeImageModal">
+            <i class="fas fa-times"></i>
+        </button>
+        <h2 id="imageModalTitle">Просмотр проекта</h2>
+        <div class="image-container">
+            <img id="projectImage" src="" alt="Изображение проекта">
+        </div>
+        <div class="image-info" id="imageInfo">
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/projects.js') }}"></script>
+{% endblock %}

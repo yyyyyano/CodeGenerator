@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}CodeGen AI - Главная{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index_style.css') }}">
+{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Система автоматического генерирования программного кода</h1>
+            <p>Ускорьте процесс разработки, снизите количество рутинных задач и повысьте качество кода с помощью нашей интеллектуальной системы генерации</p>
+            <a href="/generator" class="btn">Начать работу <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <section class="user-welcome">
+        <div class="welcome-card">
+            <div class="welcome-header">
+                <div class="welcome-avatar">
+                    {{ (full_name or username)[0].upper() }}
+                </div>
+                <div class="welcome-text">
+                    <h2>Добро пожаловать, <span>{{ full_name or username }}</span>!</h2>
+                    <p>Ваша роль: <span class="role-badge">{{ role }}</span></p>
+                    <p class="user-email"><i class="fas fa-envelope"></i> {{ email }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subsystems">
+        <h2 class="section-title">Подсистемы</h2>
+        <div class="subsystems-grid">
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>Анализ требований</h3>
+                <p>Преобразует естественный язык, диаграммы и спецификации в структурированную модель</p>
+            </div>
+            
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Хранение знаний</h3>
+                <p>База данных с синтаксическими конструкциями, шаблонами проектирования и алгоритмами</p>
+            </div>
+            
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h3>Генерация кода</h3>
+                <p>Ядро системы, создающее исходный код на основе проанализированных требований</p>
+            </div>
+        </div>
+        
+        <div class="subsystems-grid">
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Валидация и оптимизация</h3>
+                <p>Проверка на ошибки, соответствие стандартам и оптимизация производительности</p>
+            </div>
+            
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <h3>Интерфейсная подсистема</h3>
+                <p>Удобные инструменты для ввода требований, визуализации и редактирования кода</p>
+            </div>
+            
+            <div class="subsystem-card">
+                <div class="subsystem-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3>Интеграция всех подсистем</h3>
+                <p>Здесь могла бы быть ваша реклама :)</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="use-cases">
+        <h2>Основные сценарии использования</h2>
+        <div class="use-cases-grid">
+            <div class="use-case-card">
+                <h3><i class="fas fa-bolt"></i> Быстрая разработка модуля</h3>
+                <p>Разработчик описывает функциональность, система генерирует контроллеры, модели и сервисы</p>
+                <span class="user-badge">Пользователь: Разработчик ПО</span>
+            </div>
+            
+            <div class="use-case-card">
+                <h3><i class="fas fa-rocket"></i> Создание прототипа</h3>
+                <p>Системный аналитик создает базовую структуру проекта для демонстрации заказчикам</p>
+                <span class="user-badge">Пользователь: Системный аналитик</span>
+            </div>
+            
+            <div class="use-case-card">
+                <h3><i class="fas fa-graduation-cap"></i> Обучение</h3>
+                <p>Студент получает код с подробными комментариями, объясняющими каждый шаг решения</p>
+                <span class="user-badge">Пользователь: Студент</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="advantages">
+        <h2>Преимущества системы</h2>
+        <div class="advantages-grid">
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3>Скорость</h3>
+                <p>Ускорение процесса разработки в несколько раз</p>
+            </div>
+            
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-medal"></i>
+                </div>
+                <h3>Качество</h3>
+                <p>Минимизация человеческих ошибок</p>
+            </div>
+            
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Знания</h3>
+                <p>Доступ к лучшим практикам и паттернам проектирования</p>
+            </div>
+            
+            <div class="advantage-card">
+                <div class="advantage-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Надежность</h3>
+                <p>Автоматическая валидация и оптимизация</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

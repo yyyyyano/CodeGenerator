@@ -1,0 +1,338 @@
+{% extends "base.html" %}
+
+{% block title %}Мой профиль - CodeGen AI{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-header">
+        <h1>Мой профиль</h1>
+        <p class="page-subtitle">Управляйте своими данными и настройками системы</p>
+    </div>
+
+    <div class="profile-container">
+        <aside class="profile-sidebar">
+            <div class="user-card">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <h2>{{ full_name or username }}</h2>
+                    <p class="user-email">{{ email }}</p>
+                    <div class="user-role-tag">
+                        <i class="fas fa-code"></i>
+                        {{ role }}
+                    </div>
+                </div>
+
+                <div class="user-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Имя пользователя:</span>
+                        <span class="detail-value">{{ username }}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Роль:</span>
+                        <span class="detail-value">{{ role }}</span>
+                    </div>
+                </div>
+
+                <div class="user-stats">
+                    <div class="stat-item">
+                        <div class="stat-value" id="totalProjects">{{ stats.total_projects if stats else 0 }}</div>
+                        <div class="stat-label">Проектов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Шаблонов</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="role-section">
+                <h3>Выбор роли</h3>
+                <div class="role-option {% if role == 'DEVELOPER' %}active{% endif %}" data-role="DEVELOPER">
+                    <div class="role-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div class="role-info">
+                        <div class="role-title">Разработчик</div>
+                        <div class="role-description">Генерация модулей и сложных алгоритмов</div>
+                    </div>
+                </div>
+                <div class="role-option {% if role == 'SYSTEM_ANALYST' %}active{% endif %}" data-role="SYSTEM_ANALYST">
+                    <div class="role-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="role-info">
+                        <div class="role-title">Системный аналитик</div>
+                        <div class="role-description">Создание прототипов и демонстрация</div>
+                    </div>
+                </div>
+                <div class="role-option {% if role == 'STUDENT' %}active{% endif %}" data-role="STUDENT">
+                    <div class="role-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="role-info">
+                        <div class="role-title">Студент</div>
+                        <div class="role-description">Обучение с комментариями и объяснениями</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <div class="profile-main">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="main-info">
+                    <i class="fas fa-user"></i>
+                    Основная информация
+                </button>
+                <button class="tab-btn" data-tab="notifications">
+                    <i class="fas fa-bell"></i>
+                    Настройки уведомлений
+                </button>
+                <button class="tab-btn" data-tab="code-generation">
+                    <i class="fas fa-cogs"></i>
+                    Настройки генерации
+                </button>
+            </div>
+
+            <div class="tab-content">
+                <div id="main-info" class="tab-pane active">
+                    <div class="profile-section">
+                        <h2>Основная информация</h2>
+                        <p class="section-description">Личные данные и информация о вашей учетной записи</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-card editable" data-field="full_name">
+                                <div class="info-label">Полное имя</div>
+                                <div class="info-value">{{ full_name or username }}</div>
+                                <button class="edit-field-btn" title="Редактировать">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="info-card non-editable">
+                                <div class="info-label">Имя пользователя</div>
+                                <div class="info-value">{{ username }}</div>
+                                <button class="edit-field-btn" disabled title="Нельзя изменить">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="info-card editable" data-field="email">
+                                <div class="info-label">Email адрес</div>
+                                <div class="info-value email-value">
+                                    <a href="mailto:{{ email }}">{{ email }}</a>
+                                </div>
+                                <button class="edit-field-btn" title="Редактировать">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="info-card non-editable">
+                                <div class="info-label">Роль</div>
+                                <div class="info-value">{{ role }}</div>
+                                <button class="edit-field-btn" disabled title="Изменить в блоке ролей">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="info-card non-editable">
+                                <div class="info-label">Дата регистрации</div>
+                                <div class="info-value">Сегодня</div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="saveChangesBtn">
+                                <i class="fas fa-save"></i>
+                                Сохранить изменения
+                            </button>
+                            <button class="btn btn-secondary" id="cancelChangesBtn">
+                                Отмена
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="notifications" class="tab-pane">
+                    <div class="profile-section">
+                        <h2>Настройки уведомлений</h2>
+                        <p class="section-description">Управляйте тем, какие уведомления вы хотите получать</p>
+                        
+                        <div class="settings-list">
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Email уведомления</h4>
+                                    <p>Получать уведомления на почту о важных событиях</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Обновления проектов</h4>
+                                    <p>Уведомления о изменениях в ваших проектах</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Новые шаблоны</h4>
+                                    <p>Уведомления о новых шаблонах в библиотеке</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <h4>Системные оповещения</h4>
+                                    <p>Важные уведомления о системе и обновлениях</p>
+                                </div>
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Сохранить настройки
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="code-generation" class="tab-pane">
+                    <div class="profile-section">
+                        <h2>Настройки генерации кода</h2>
+                        <p class="section-description">Настройте параметры генерации кода под свои предпочтения</p>
+                        
+                        <div class="settings-grid">
+                            <div class="setting-group">
+                                <h3>
+                                    <i class="fas fa-code"></i>
+                                    Предпочитаемый ЯП
+                                </h3>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="preferredLanguage">
+                                        <option value="">Выберите язык</option>
+                                        <option value="Python">Python</option>
+                                        <option value="JavaScript">JavaScript</option>
+                                        <option value="TypeScript">TypeScript</option>
+                                        <option value="Java">Java</option>
+                                        <option value="C++">C++</option>
+                                        <option value="Go">Go</option>
+                                        <option value="Rust">Rust</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h3>
+                                    <i class="fas fa-layer-group"></i>
+                                    Предпочитаемый фреймворк
+                                </h3>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="preferredFramework">
+                                        <option value="">Выберите фреймворк</option>
+                                        <option value="react" selected>React</option>
+                                        <option value="vue">Vue.js</option>
+                                        <option value="angular">Angular</option>
+                                        <option value="nestjs">NestJS</option>
+                                        <option value="express">Express.js</option>
+                                        <option value="django">Django</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h3>
+                                    <i class="fas fa-desktop"></i>
+                                    Тема интерфейса
+                                </h3>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="theme">
+                                        <option value="auto">Автоматически</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h3>
+                                    <i class="fas fa-file-code"></i>
+                                    Стиль кодирования
+                                </h3>
+                                <div class="select-wrapper">
+                                    <select class="form-select" id="codeStyle">
+                                        <option value="standard" selected>Standard</option>
+                                        <option value="google">Google Style Guide</option>
+                                        <option value="airbnb">Airbnb</option>
+                                        <option value="custom">Custom (пользовательский)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="setting-group">
+                                <h3>
+                                    <i class="fas fa-cog"></i>
+                                    Дополнительные настройки
+                                </h3>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="addComments" checked>
+                                        <span class="checkmark"></span>
+                                        Добавлять комментарии к коду
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="generateDocs" checked>
+                                        <span class="checkmark"></span>
+                                        Генерировать документацию
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="autoFormat">
+                                        <span class="checkmark"></span>
+                                        Автоматически форматировать код
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="checkErrors" checked>
+                                        <span class="checkmark"></span>
+                                        Проверять на ошибки
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button class="btn btn-primary" id="saveGenerationSettings">
+                                <i class="fas fa-save"></i>
+                                Сохранить настройки генерации
+                            </button>
+                            <button class="btn btn-secondary" id="resetDefaultSettings">
+                                <i class="fas fa-undo"></i>
+                                Сбросить к значениям по умолчанию
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+{% endblock %}

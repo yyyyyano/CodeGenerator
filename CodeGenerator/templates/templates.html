@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}Библиотека шаблонов - CodeGen AI{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/templates_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-header">
+        <h1>Библиотека шаблонов</h1>
+        <p class="page-subtitle">Готовые решения и шаблоны кода для быстрой разработки</p>
+    </div>
+
+    <div class="user-info-banner">
+        <p>Вы вошли как: <strong>{{ full_name or username }}</strong> • Роль: <span class="role-badge">{{ role }}</span> • Доступно шаблонов: <span class="template-count">24</span></p>
+    </div>
+
+    <section class="filters-section">
+        <h2>Фильтры шаблонов</h2>
+        
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" class="search-input" placeholder="Поиск по шаблонам...">
+        </div>
+        
+        <div class="filters-grid">
+            <div class="filter-group">
+                <h3>Все категории</h3>
+                <div class="filter-options" id="categoryFilters">
+                    <label class="filter-tag active">
+                        <input type="checkbox" name="category" value="all" checked>
+                        <i class="fas fa-check-circle"></i>
+                        Все
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="category" value="frontend">
+                        <i class="fas fa-check-circle"></i>
+                        Frontend
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="category" value="backend">
+                        <i class="fas fa-check-circle"></i>
+                        Backend
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="category" value="patterns">
+                        <i class="fas fa-check-circle"></i>
+                        Паттерны
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="category" value="utils">
+                        <i class="fas fa-check-circle"></i>
+                        Утилиты
+                    </label>
+                </div>
+            </div>
+            
+            <div class="filter-group">
+                <h3>Все языки</h3>
+                <div class="filter-options" id="languageFilters">
+                    <label class="filter-tag active">
+                        <input type="checkbox" name="language" value="all" checked>
+                        <i class="fas fa-check-circle"></i>
+                        Все
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="language" value="typescript">
+                        <i class="fas fa-check-circle"></i>
+                        TypeScript
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="language" value="javascript">
+                        <i class="fas fa-check-circle"></i>
+                        JavaScript
+                    </label>
+                    <label class="filter-tag">
+                        <input type="checkbox" name="language" value="python">
+                        <i class="fas fa-check-circle"></i>
+                        Python
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="templates-section">
+        <div class="templates-grid" id="templatesGrid">
+            <div class="template-card" data-categories="backend" data-languages="typescript">
+                <div class="template-header">
+                    <h3>REST API контроллер</h3>
+                    <p class="template-description">Базовый REST API контроллер с CRUD операциями для управления сущностями</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag framework">NestJS</span>
+                    <span class="template-tag category">Backend</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>1 245 использований</span>
+                    </div>
+                    <button class="use-btn use-template" 
+                            data-name="REST API контроллер"
+                            data-description="Базовый REST API контроллер с CRUD операциями для управления сущностями"
+                            data-language="typescript"
+                            data-framework="NestJS"
+                            data-category="backend"
+                            data-pattern="rest-api-controller">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="frontend" data-languages="typescript">
+                <div class="template-header">
+                    <h3>Форма с валидацией</h3>
+                    <p class="template-description">React компонент формы с полной валидацией полей и обработкой ошибок</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag framework">React</span>
+                    <span class="template-tag category">Frontend</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>2 103 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Форма с валидацией"
+                            data-description="React компонент формы с полной валидацией полей и обработкой ошибок"
+                            data-language="typescript"
+                            data-framework="React"
+                            data-category="frontend"
+                            data-pattern="form-validation">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="patterns" data-languages="typescript">
+                <div class="template-header">
+                    <h3>Паттерн Observer</h3>
+                    <p class="template-description">Реализация паттерна проектирования Observer с TypeScript интерфейсами</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag category">Паттерны</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>856 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Паттерн Observer"
+                            data-description="Реализация паттерна проектирования Observer с TypeScript интерфейсами"
+                            data-language="typescript"
+                            data-framework=""
+                            data-category="patterns"
+                            data-pattern="observer-pattern">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="backend" data-languages="javascript">
+                <div class="template-header">
+                    <h3>Аутентификация JWT</h3>
+                    <p class="template-description">Middleware для проверки JWT токенов в Express.js приложении</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">JavaScript</span>
+                    <span class="template-tag framework">Express</span>
+                    <span class="template-tag category">Backend</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>1 567 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Аутентификация JWT"
+                            data-description="Middleware для проверки JWT токенов в Express.js приложении"
+                            data-language="javascript"
+                            data-framework="Express"
+                            data-category="backend"
+                            data-pattern="jwt-authentication">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="frontend" data-languages="typescript">
+                <div class="template-header">
+                    <h3>Кастомный хук React</h3>
+                    <p class="template-description">Хук для работы с localStorage с поддержкой TypeScript типов</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag framework">React</span>
+                    <span class="template-tag category">Frontend</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>1 892 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Кастомный хук React"
+                            data-description="Хук для работы с localStorage с поддержкой TypeScript типов"
+                            data-language="typescript"
+                            data-framework="React"
+                            data-category="frontend"
+                            data-pattern="custom-hook">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="patterns" data-languages="typescript">
+                <div class="template-header">
+                    <h3>Singleton Pattern</h3>
+                    <p class="template-description">Реализация паттерна Singleton для конфигурации приложения</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag category">Паттерны</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>743 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Singleton Pattern"
+                            data-description="Реализация паттерна Singleton для конфигурации приложения"
+                            data-language="typescript"
+                            data-framework=""
+                            data-category="patterns"
+                            data-pattern="singleton-pattern">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="utils" data-languages="python">
+                <div class="template-header">
+                    <h3>Логгер с ротацией</h3>
+                    <p class="template-description">Настроенный логгер для Python с ротацией файлов и разными уровнями логирования</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">Python</span>
+                    <span class="template-tag category">Утилиты</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>932 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Логгер с ротацией"
+                            data-description="Настроенный логгер для Python с ротацией файлов и разными уровнями логирования"
+                            data-language="python"
+                            data-framework=""
+                            data-category="utils"
+                            data-pattern="logger-rotation">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-card" data-categories="frontend" data-languages="typescript">
+                <div class="template-header">
+                    <h3>Модальное окно</h3>
+                    <p class="template-description">Универсальный компонент модального окна для React с анимациями</p>
+                </div>
+                
+                <div class="template-tags">
+                    <span class="template-tag language">TypeScript</span>
+                    <span class="template-tag framework">React</span>
+                    <span class="template-tag category">Frontend</span>
+                </div>
+                
+                <div class="template-footer">
+                    <div class="download-count">
+                        <i class="fas fa-download"></i>
+                        <span>1,405 использований</span>
+                    </div>
+                    <button class="use-btn use-template"
+                            data-name="Модальное окно"
+                            data-description="Универсальный компонент модального окна для React с анимациями"
+                            data-language="typescript"
+                            data-framework="React"
+                            data-category="frontend"
+                            data-pattern="modal-component">
+                        <i class="fas fa-play-circle"></i>
+                        Использовать
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <h2>Статистика библиотеки</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="stat-value" id="totalTemplates">24</div>
+                <div class="stat-label">Всего шаблонов</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <div class="stat-value" id="totalDownloads">45,210</div>
+                <div class="stat-label">Всего загрузок</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-value" id="activeUsers">8,542</div>
+                <div class="stat-label">Активных пользователей</div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="{{ url_for('static', filename='js/templates.js') }}"></script>
+{% endblock %}
