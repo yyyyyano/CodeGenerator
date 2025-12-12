@@ -19,3 +19,17 @@
 
   ollama pull qwen2.5-coder:7b
   ```
+
+## Запуск после клонирования репозитория
+```
+Запуск сервера для модели:
+  ollama serve
+
+Активация окружения перед первоначальный запуском программы:
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+Запуск самой программы
+./script.sh
+```
