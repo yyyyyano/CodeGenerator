@@ -38,3 +38,6 @@ pip install -r requirements.txt
 ```
 ./run.sh
 ```
+
+## Ссылка на видеодемонстрацию работы системы и отчет
+[СЮДА](https://drive.google.com/drive/folders/1TPsWtg_TanJLHzhoYYvXjwmA0OYuzTow?usp=drive_link)
