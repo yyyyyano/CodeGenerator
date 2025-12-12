@@ -36,5 +36,5 @@ pip install -r requirements.txt
 
 Запуск самой программы
 ```
-./script.sh
+./run.sh
 ```
