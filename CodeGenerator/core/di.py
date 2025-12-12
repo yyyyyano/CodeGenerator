@@ -13,7 +13,6 @@ class DependencyInjector:
     
     @classmethod
     def init(cls):
-        """Инициализация всех сервисов"""
         cls.register("analysis", RequirementAnalysisService())
         cls.register("generation", CodeGenerationService())
         cls.register("validation", ValidationService())
