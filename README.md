@@ -7,3 +7,15 @@
 * [ЛР 3 Система автоматического генерирования программного кода](https://docs.google.com/document/d/1rjFmxG9CGokzTCFexBDyUerEILO2LRFqPsc5NlidE5I/edit?usp=sharing) 
 * [ЛР 4 Система автоматического генерирования программного кода](https://docs.google.com/document/d/1mVSz93TIj4gdVQoF7E_uVQlfC34NHNAZwv_0OYKUeeQ/edit?usp=sharing) 
 * [ЛР 5 Система автоматического генерирования программного кода](https://docs.google.com/document/d/1LWf9NmisWaZ59dZQRL6PxoUTcZa4EiojSo56fgL-E1g/edit?usp=sharing)
+
+## Предварительные требования
+
+1. **Python 3.10+**
+2. **Ollama** (у меня используется локальная модель)
+
+- Загрузка локальной модели:
+  ```
+  curl -fsSL https://ollama.com/install.sh | sh
+
+  ollama pull qwen2.5-coder:7b
+  ```
