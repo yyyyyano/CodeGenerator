@@ -133,10 +133,8 @@ class UserRepository:
                 }   
         return None
     
-    # В классе UserRepository добавьте метод:
 
     def get_all_users(self):
-        """Получение списка всех пользователей"""
         conn = sqlite3.connect(self.db_path)
         cursor = conn.cursor()
         
